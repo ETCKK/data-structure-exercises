@@ -1,7 +1,12 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-// HashMap class for storing (key, value) pairs in a HashMap
+/**
+ * Basic HashMap implementation. Uses Separate Chaining with LinkedList to
+ * resolve collisions. Has dynamic array size, if the item count gets close to
+ * the array size, array size doubles and every item rehashes accordingly.
+ */
+
 public class HashMap<K, V> {
     private static final double LOAD_FACTOR_THRESHOLD = 0.75;
     private LinkedList<Node>[] hashArray;
@@ -19,12 +24,12 @@ public class HashMap<K, V> {
         this.size = 0;
     }
 
-    // Get the value for the given key
+    // get the value for the given key from the map
     public V get(K key) {
         return get(key, hashArray);
     }
 
-    // Set the given value for the given key
+    // set the given value for the given key in the map
     public void set(K key, V value) {
         if (set(key, value, hashArray)) {
             keys.add(key);
@@ -35,6 +40,7 @@ public class HashMap<K, V> {
             rehash();
     }
 
+    // remove the value for the given key from the map
     public V remove(K key) {
         int index = hash(key, hashArray);
         LinkedList<Node> nodeList = hashArray[index];
@@ -54,12 +60,12 @@ public class HashMap<K, V> {
         return null;
     }
 
-    // Return true if the map contains the given key, false otherwise
+    // check if the map contains this key
     public boolean contains(K key) {
         return get(key) != null;
     }
 
-    // Helper get method
+    // helper get method
     private V get(K key, LinkedList<Node>[] array) {
         int index = hash(key, array);
         if (array[index] == null) {
@@ -75,7 +81,7 @@ public class HashMap<K, V> {
         return null;
     }
 
-    // Helper set method
+    // helper set method
     private boolean set(K key, V value, LinkedList<Node>[] array) {
         int index = hash(key, array);
         LinkedList<Node> nodeList = array[index] == null ? array[index] = new LinkedList<>() : array[index];
@@ -93,12 +99,12 @@ public class HashMap<K, V> {
 
     }
 
-    // Helper hash method to hash the keys
+    // helper hash method
     private int hash(K key, LinkedList<Node>[] array) {
         return (key.hashCode() & 0x7FFFFFFF) % array.length;
     }
 
-    // Helper rehash method to resize the array of the map and rehash everything
+    // helper rehash method to resize the array of the map and rehash everything
     @SuppressWarnings("unchecked")
     private void rehash() {
         LinkedList<Node>[] newArray = new LinkedList[hashArray.length * 2];
