@@ -67,7 +67,9 @@ public class LinkedList<E> {
 
         E data = first.data;
         first = first.next;
-        if (first != null)
+        if (first == null)
+            last = null;
+        else
             first.prev = null;
         size--;
         return data;
@@ -80,7 +82,9 @@ public class LinkedList<E> {
 
         E data = last.data;
         last = last.prev;
-        if (last != null)
+        if (last == null)
+            first = null;
+        else
             last.next = null;
         size--;
         return data;
