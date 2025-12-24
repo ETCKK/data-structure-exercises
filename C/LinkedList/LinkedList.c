@@ -8,7 +8,7 @@ typedef struct Node
     struct Node *prev;
 } Node;
 
-typedef struct LinkedList
+typedef struct
 {
     Node *first;
     Node *last;
@@ -18,7 +18,7 @@ typedef struct LinkedList
 // create a Node with given data as well as next and previous Node pointers
 static Node *Node_Create(int data, Node *next, Node *prev)
 {
-    Node *node = (Node *)malloc(sizeof(Node));
+    Node *node = malloc(sizeof(*node));
     if (node == NULL)
         return NULL;
 
@@ -32,7 +32,7 @@ static Node *Node_Create(int data, Node *next, Node *prev)
 // create an empty list
 LinkedList *LinkedList_Create()
 {
-    LinkedList *list = (LinkedList *)malloc(sizeof(LinkedList));
+    LinkedList *list = malloc(sizeof(*list));
 
     if (list == NULL)
         return NULL;
@@ -167,7 +167,7 @@ void LinkedList_RemoveLast(LinkedList *list)
     list->size--;
 }
 
-// print method for the list
+// print the list
 void LinkedList_Print(const LinkedList *list)
 {
     if (list == NULL)
@@ -194,31 +194,31 @@ void LinkedList_Print(const LinkedList *list)
     printf("Size: %zu\n", list->size);
 }
 
-// example main method
+// example main
 int main()
 {
-    LinkedList *list1 = LinkedList_Create();
-    if (list1 == NULL)
+    LinkedList *list = LinkedList_Create();
+    if (list == NULL)
     {
         printf("Failed to create list.\n");
         return EXIT_FAILURE;
     }
 
-    LinkedList_Print(list1);
+    LinkedList_Print(list);
 
     for (int i = 1; i < 4; i += 1)
     {
-        LinkedList_AddLast(list1, i);
-        LinkedList_Print(list1);
+        LinkedList_AddLast(list, i);
+        LinkedList_Print(list);
     }
 
     for (int i = -1; i > -4; i -= 1)
     {
-        LinkedList_AddFirst(list1, i);
-        LinkedList_Print(list1);
+        LinkedList_AddFirst(list, i);
+        LinkedList_Print(list);
     }
 
-    LinkedList_Destroy(list1);
+    LinkedList_Destroy(list);
 
     return 0;
 }
